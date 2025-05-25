@@ -206,5 +206,3 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 
 ⭐ **¡No olvides dar una estrella al proyecto si te resultó útil!** ⭐
 ```
-
-El README está diseñado para ser profesional, informativo y atractivo visualmente, proporcionando toda la información necesaria para que otros desarrolladores puedan entender, instalar y contribuir al proyecto.
