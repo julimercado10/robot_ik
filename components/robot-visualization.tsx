@@ -264,7 +264,7 @@ export function RobotVisualization({
     workspaceMeshRef.current = workspaceMesh
   }, [workspaceLimits])
 
-  // Update target position
+  // Update Controles de posición
   useEffect(() => {
     if (!targetRef.current) return
     targetRef.current.position.set(targetPosition[0], targetPosition[1], targetPosition[2])
@@ -437,46 +437,46 @@ export function RobotVisualization({
     <div className="relative w-full h-full">
       <div ref={containerRef} className="w-full h-full" />
 
-      {/* Información de estado superpuesta */}
-      <div className="absolute top-4 right-4 space-y-2">
-        <div className="bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-lg border">
-          <div className="space-y-2">
-            <div className="flex items-center justify-between gap-3">
-              <span className="text-sm font-medium">Estado:</span>
+      {/* Información de estado superpuesta - responsive */}
+      <div className="absolute top-2 sm:top-4 right-2 sm:right-4 space-y-2">
+        <div className="bg-white/90 backdrop-blur-sm rounded-lg p-2 sm:p-3 shadow-lg border">
+          <div className="space-y-1 sm:space-y-2">
+            <div className="flex items-center justify-between gap-2 sm:gap-3">
+              <span className="text-xs sm:text-sm font-medium">Estado:</span>
               {ikStatus.solved ? (
-                <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-                  Solución Encontrada
+                <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 text-xs">
+                  Solución
                 </Badge>
               ) : (
-                <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">
+                <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200 text-xs">
                   Sin Solución
                 </Badge>
               )}
             </div>
-            <div className="flex items-center justify-between gap-3">
-              <span className="text-sm font-medium">Tiempo:</span>
-              <span className="text-sm font-mono">{ikStatus.time.toFixed(3)}s</span>
+            <div className="flex items-center justify-between gap-2 sm:gap-3">
+              <span className="text-xs sm:text-sm font-medium">Tiempo:</span>
+              <span className="text-xs sm:text-sm font-mono">{ikStatus.time.toFixed(3)}s</span>
             </div>
-            <div className="flex items-center justify-between gap-3">
-              <span className="text-sm font-medium">DOF:</span>
-              <span className="text-sm font-mono">{dof}</span>
+            <div className="flex items-center justify-between gap-2 sm:gap-3">
+              <span className="text-xs sm:text-sm font-medium">DOF:</span>
+              <span className="text-xs sm:text-sm font-mono">{dof}</span>
             </div>
           </div>
         </div>
 
-        <div className="bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-lg border">
+        <div className="bg-white/90 backdrop-blur-sm rounded-lg p-2 sm:p-3 shadow-lg border">
           <div className="space-y-1">
-            <div className="text-sm font-medium mb-2">Posición Objetivo:</div>
+            <div className="text-xs sm:text-sm font-medium mb-1 sm:mb-2">Posición Objetivo:</div>
             <div className="text-xs space-y-1">
-              <div className="flex justify-between">
+              <div className="flex justify-between gap-2">
                 <span>X:</span>
                 <span className="font-mono">{targetPosition[0].toFixed(3)}</span>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between gap-2">
                 <span>Y:</span>
                 <span className="font-mono">{targetPosition[1].toFixed(3)}</span>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between gap-2">
                 <span>Z:</span>
                 <span className="font-mono">{targetPosition[2].toFixed(3)}</span>
               </div>

@@ -1,4 +1,4 @@
-export const DOF = 7 // Degrees of freedom
+export const DOF = 7 // Grados de Libertad
 
 // DH parameters template
 export const DH_template = [

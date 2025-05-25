@@ -6,6 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { RobotVisualization } from "@/components/robot-visualization"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Button } from "@/components/ui/button"
+import { ChevronDown, ChevronUp } from "lucide-react"
 
 // Importar las funciones de cinemática
 import { inverseKinematics, DH_template, workspace_dict } from "@/lib/kinematics"
@@ -23,6 +25,9 @@ export default function Home() {
 
   // Estado para el estado de la solución IK
   const [ikStatus, setIkStatus] = useState({ solved: true, time: 0 })
+
+  // Estado para mostrar/ocultar controles en móvil
+  const [showControls, setShowControls] = useState(false)
 
   // Referencia para evitar cálculos innecesarios
   const prevSolutionRef = useRef<number[]>(Array(7).fill(0))
@@ -224,27 +229,48 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen p-4">
-          <div className="mb-8 text-center">
-            <h1 className="text-3xl font-bold mb-2">
-              Visualización Cinemática del Brazo Robótico
-            </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Visualización interactiva en 3D de la cinemática del brazo del robot con cálculo de la cinemática inversa.
-            </p>
-          </div>
+    <main className="min-h-screen p-2 sm:p-4 lg:p-6">
       <div className="w-full max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-[calc(100vh-2rem)]">
-          {/* Panel de controles - más compacto */}
-          <div className="lg:col-span-1">
+        {/* Header */}
+        <div className="mb-4 sm:mb-6">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-2 sm:mb-3">
+            Visualización Cinemática del Brazo Robótico
+          </h1>
+          <p className="text-sm sm:text-base text-muted-foreground text-center max-w-4xl mx-auto leading-relaxed px-2">
+            Esta aplicación visualiza un brazo robótico con grados de libertad (DOF) configurables de 2 a 7. Implementa
+            la cinemática directa e inversa utilizando los parámetros Denavit-Hartenberg.
+          </p>
+        </div>
+
+        {/* Layout responsive */}
+        <div className="flex flex-col lg:grid lg:grid-cols-4 gap-4 sm:gap-6">
+          {/* Botón para mostrar/ocultar controles en móvil */}
+          <div className="lg:hidden">
+            <Button onClick={() => setShowControls(!showControls)} variant="outline" className="w-full mb-4">
+              {showControls ? (
+                <>
+                  <ChevronUp className="w-4 h-4 mr-2" />
+                  Ocultar Controles
+                </>
+              ) : (
+                <>
+                  <ChevronDown className="w-4 h-4 mr-2" />
+                  Mostrar Controles
+                </>
+              )}
+            </Button>
+          </div>
+
+          {/* Panel de controles */}
+          <div className={`lg:col-span-1 ${showControls ? "block" : "hidden lg:block"}`}>
             <Card className="h-full">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-xl">Controles del Brazo Robótico</CardTitle>
+              <CardHeader className="pb-3 sm:pb-4">
+                <CardTitle className="text-lg sm:text-xl">Controles del Brazo Robótico</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="space-y-4 sm:space-y-6">
                 {/* DOF Selection */}
                 <div className="space-y-2">
-                  <Label className="text-base font-medium">Grados de Libertad (DOF)</Label>
+                  <Label className="text-sm sm:text-base font-medium">Grados de Libertad (DOF)</Label>
                   <Select value={dof.toString()} onValueChange={handleDofChange}>
                     <SelectTrigger>
                       <SelectValue />
@@ -260,14 +286,14 @@ export default function Home() {
                   </Select>
                 </div>
 
-                {/* Target Position */}
-                <div className="space-y-4">
-                  <Label className="text-base font-medium">Controles de Posición</Label>
+                {/* Controles de posición */}
+                <div className="space-y-3 sm:space-y-4">
+                  <Label className="text-sm sm:text-base font-medium">Controles de posición</Label>
 
-                  <div className="space-y-3">
+                  <div className="space-y-2 sm:space-y-3">
                     <div className="flex items-center justify-between">
-                      <Label className="text-sm">Posición X</Label>
-                      <span className="text-sm font-mono">{position.x.toFixed(2)}</span>
+                      <Label className="text-xs sm:text-sm">Posición X</Label>
+                      <span className="text-xs sm:text-sm font-mono">{position.x.toFixed(2)}</span>
                     </div>
                     <Slider
                       min={-x_range}
@@ -279,10 +305,10 @@ export default function Home() {
                     />
                   </div>
 
-                  <div className="space-y-3">
+                  <div className="space-y-2 sm:space-y-3">
                     <div className="flex items-center justify-between">
-                      <Label className="text-sm">Posición Y</Label>
-                      <span className="text-sm font-mono">{position.y.toFixed(2)}</span>
+                      <Label className="text-xs sm:text-sm">Posición Y</Label>
+                      <span className="text-xs sm:text-sm font-mono">{position.y.toFixed(2)}</span>
                     </div>
                     <Slider
                       min={-y_range}
@@ -294,10 +320,10 @@ export default function Home() {
                     />
                   </div>
 
-                  <div className="space-y-3">
+                  <div className="space-y-2 sm:space-y-3">
                     <div className="flex items-center justify-between">
-                      <Label className="text-sm">Posición Z</Label>
-                      <span className="text-sm font-mono">{position.z.toFixed(2)}</span>
+                      <Label className="text-xs sm:text-sm">Posición Z</Label>
+                      <span className="text-xs sm:text-sm font-mono">{position.z.toFixed(2)}</span>
                     </div>
                     <Slider
                       min={z_min}
@@ -310,14 +336,14 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Target Orientation */}
-                <div className="space-y-4">
-                  <Label className="text-base font-medium">Controles de Orientación</Label>
+                {/* Controles de orientación */}
+                <div className="space-y-3 sm:space-y-4">
+                  <Label className="text-sm sm:text-base font-medium">Controles de orientación</Label>
 
-                  <div className="space-y-3">
+                  <div className="space-y-2 sm:space-y-3">
                     <div className="flex items-center justify-between">
-                      <Label className="text-sm">Roll</Label>
-                      <span className="text-sm font-mono">{orientation.roll.toFixed(2)} rad</span>
+                      <Label className="text-xs sm:text-sm">Roll</Label>
+                      <span className="text-xs sm:text-sm font-mono">{orientation.roll.toFixed(2)} rad</span>
                     </div>
                     <Slider
                       min={-Math.PI}
@@ -329,10 +355,10 @@ export default function Home() {
                     />
                   </div>
 
-                  <div className="space-y-3">
+                  <div className="space-y-2 sm:space-y-3">
                     <div className="flex items-center justify-between">
-                      <Label className="text-sm">Pitch</Label>
-                      <span className="text-sm font-mono">{orientation.pitch.toFixed(2)} rad</span>
+                      <Label className="text-xs sm:text-sm">Pitch</Label>
+                      <span className="text-xs sm:text-sm font-mono">{orientation.pitch.toFixed(2)} rad</span>
                     </div>
                     <Slider
                       min={-Math.PI}
@@ -344,10 +370,10 @@ export default function Home() {
                     />
                   </div>
 
-                  <div className="space-y-3">
+                  <div className="space-y-2 sm:space-y-3">
                     <div className="flex items-center justify-between">
-                      <Label className="text-sm">Yaw</Label>
-                      <span className="text-sm font-mono">{orientation.yaw.toFixed(2)} rad</span>
+                      <Label className="text-xs sm:text-sm">Yaw</Label>
+                      <span className="text-xs sm:text-sm font-mono">{orientation.yaw.toFixed(2)} rad</span>
                     </div>
                     <Slider
                       min={-Math.PI}
@@ -360,8 +386,8 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="pt-4 border-t">
-                  <p className="text-sm text-muted-foreground text-center">
+                <div className="pt-3 sm:pt-4 border-t">
+                  <p className="text-xs sm:text-sm text-muted-foreground text-center">
                     La visualización se actualiza automáticamente al mover los controles
                   </p>
                 </div>
@@ -371,7 +397,7 @@ export default function Home() {
 
           {/* Visualización */}
           <div className="lg:col-span-3">
-            <Card className="h-full">
+            <Card className="h-[50vh] sm:h-[60vh] lg:h-[calc(100vh-200px)]">
               <CardContent className="p-0 h-full">
                 <RobotVisualization
                   key={`robot-${dof}`}
