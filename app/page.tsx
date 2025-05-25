@@ -225,6 +225,14 @@ export default function Home() {
 
   return (
     <main className="min-h-screen p-4">
+          <div className="mb-8 text-center">
+            <h1 className="text-3xl font-bold mb-2">
+              Visualización Cinemática del Brazo Robótico
+            </h1>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Visualización interactiva en 3D de la cinemática del brazo del robot con cálculo de la cinemática inversa.
+            </p>
+          </div>
       <div className="w-full max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-[calc(100vh-2rem)]">
           {/* Panel de controles - más compacto */}

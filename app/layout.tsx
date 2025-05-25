@@ -7,6 +7,9 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata = {
   title: "Visualización de Cinemática de Robot",
   description: "Visualización interactiva de cinemática de robot con shadcn/ui",
+  icons: {
+    icon: "/favicon.ico",
+  },
 }
 
 export default function RootLayout({
